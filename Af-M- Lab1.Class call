@@ -1,0 +1,72 @@
+#00000001.
+class computer:
+    #below are class variables
+    c_name="HP"
+    c_Price=50000
+    c_manufactur="IBM"
+    c_processor="AMD"
+    c_ram=16
+    def computerDetails(self):
+        print(self.c_name,self.c_Price,self.c_manufactur,self.c_processor,self.c_ram)#by self we access veriables
+        
+# Creating an instance of the Computer class        
+c1=computer()
+c1.computerDetails()
+
+
+
+
+#00000002.
+class Computer:
+    # Class variables by using self
+    c_name = "HP"
+    c_price = 50000
+    c_manufacturer = "IBM"
+    c_processor = "AMD"
+    c_ram = 16
+    
+    def __init__(self, c_name=c_name, c_price=c_price, c_manufacturer=c_manufacturer, c_processor=c_processor, c_ram=c_ram):
+        self.c_name = c_name
+        self.c_price = c_price
+        self.c_manufacturer = c_manufacturer
+        self.c_processor = c_processor
+        self.c_ram = c_ram
+
+
+    def computer_details(self):
+        print(self.c_name, self.c_price, self.c_manufacturer, self.c_processor, self.c_ram)
+
+# Creating an instance of the Computer class
+
+c1 = Computer(c_name="Dell", c_price=60000, c_manufacturer="Dell Inc.", c_processor="Intel", c_ram=8)
+c1.computer_details()
+c2 = Computer()
+c2.computer_details()
+
+
+
+
+00000003.
+class Computer:
+    # Class variables
+    c_name = "HP"
+    c_price = 50000
+    c_manufacturer = "IBM"
+    c_processor = "AMD"
+    c_ram = 16
+
+    #discount
+    def __init__(self):
+        self.discount=2000 
+        print("the discount of the computer is:",self.discount)
+        
+    def discounted_price(self):
+        discounted_price = self.c_price - self.discount
+        print("Discounted Price:",self.discounted_price)
+
+    def computer_details(self):
+        print(self.c_name, self.c_price, self.c_manufacturer, self.c_processor, self.c_ram)
+
+# Creating an instance of the Computer class
+c1 = Computer()
+c1.computer_details()
