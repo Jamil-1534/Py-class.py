@@ -1,0 +1,49 @@
+'''1.Single Inheritance 
+   2.Multilevel Inheritance
+   3.Multiple Inheritance
+   4.hierachical Inheritance'''
+
+#Example:
+
+class Person:  # Parent class
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def personDetails(self):  # Fixed method name and added colon
+        print(self.name, self.age)
+
+class Employee(Person):  # Child class
+    def basicInfo(self):
+        print("Employee is the child class of Person")
+
+# Create an Employee instance
+E1 = Employee("Jamil", 22)
+E1.personDetails()  # Call the method from the Person class
+print(E1.name + " is the employee")  # Correctly formatted string
+E1.basicInfo()  # Call the method from the Employee class
+
+.......................................................
+
+#Use super fanction
+
+class Person:  # Parent class
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def personDetails(self):
+        print(self.name, self.age)
+
+class Employee(Person):  # Child class
+    def __init__(self, name, age, email):
+        super().__init__(name, age)
+        self.email = email
+
+    def basicInfo(self):
+        super().personDetails()
+        print(self.email)
+
+# Create an Employee instance
+E1 = Employee("Jamil", 22, "jamil@gmail.com")
+E1.basicInfo()
