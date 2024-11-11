@@ -1,0 +1,34 @@
+Question:
+
+In a banking system, there are different types of accounts: Savings Account and Current Account. Each account type has specific rules for calculating the monthly interest rate. 
+The base class, BankAccount, defines a general method to calculate the interest, which can be overridden by derived classes based on specific account rules. BankAccount has attributes with account_number, 
+balance as well as it has a method for calculating interest by  assuming a 2% interest rate.Where Savings Account is derived from the BankAccount which overrides 
+the interest calculation method by assuming 4% interest. CurrentAccount is also derived from BankAccount  and it also overrides the interest calculation method with 10% interest.
+Now, implement this scenario using OOP syntax of Python.
+
+
+Ans:-
+
+class BankAccount:
+    def __init__(self, account_number, balance):
+        self.account_number = account_number
+        self.balance = balance
+
+    def calculate_interest(self):
+        return self.balance * 0.02
+
+class SavingsAccount(BankAccount):
+    def calculate_interest(self):
+        return self.balance * 0.04
+
+class CurrentAccount(BankAccount):
+    def calculate_interest(self):
+        return self.balance * 0.10
+
+a1 = BankAccount("12345", 1000)
+a2 = SavingsAccount("67890", 1000)
+a3 = CurrentAccount("54321", 1000)
+
+print("BankAccount interest:", a1.calculate_interest())
+print("SavingsAccount interest:", a2.calculate_interest())
+print("CurrentAccount interest:", a3.calculate_interest())
