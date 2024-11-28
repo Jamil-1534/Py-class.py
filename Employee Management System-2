@@ -1,6 +1,8 @@
 from customtkinter import *
 from PIL import Image
 from tkinter import ttk
+import csv
+from datetime import datetime
 
 # Initialize the window
 window = CTk()
@@ -131,25 +133,32 @@ deleteButton.grid(row=0, column=3, padx=10, pady=10)
 deleteallButton = CTkButton(buttonFrame, text='Delete All', font=('Helvetica', 15, 'bold'), width=180, corner_radius=15, hover_color='#4e4e4e')
 deleteallButton.grid(row=0, column=4, padx=10, pady=10)
 
-# Expand the layout to fill the screen
-window.grid_rowconfigure(0, weight=1)
-window.grid_columnconfigure(0, weight=1)
-window.grid_rowconfigure(1, weight=5)
-window.grid_columnconfigure(1, weight=5)
+# Add Attendance Button
+attendanceButton = CTkButton(buttonFrame, text='Mark Attendance', font=('Helvetica', 15, 'bold'), width=180, corner_radius=15, hover_color='#4e4e4e')
+attendanceButton.grid(row=0, column=5, padx=10, pady=10)
 
-# Status Bar (Bottom of the window)
-statusBar = CTkLabel(window, text='Ready', font=('Helvetica', 14), text_color='white', anchor='w', width=window.winfo_width())
+# Functionality to mark attendance
+def mark_attendance():
+    emp_id = idEntry.get()
+    emp_name = nameEntry.get()
+    
+    if emp_id and emp_name:
+        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        # Log attendance to CSV file
+        with open('attendance_log.csv', 'a', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow([emp_id, emp_name, current_time])
+        
+        # Provide feedback in status bar
+        statusBar.configure(text=f'Attendance marked for {emp_name} at {current_time}')
+    else:
+        statusBar.configure(text='Please enter Employee ID and Name')
+
+attendanceButton.configure(command=mark_attendance)
+
+# Status Bar at the bottom
+statusBar = CTkLabel(window, text='Ready', font=('Helvetica', 14), text_color='white', anchor='w')
 statusBar.grid(row=3, column=0, columnspan=2, sticky='ew', padx=10, pady=10)
 
-# Adding Tooltip to the Buttons (Optional)
-def on_enter(event, widget):
-    widget.configure(fg_color='#333333')  # Change color on hover
-
-def on_leave(event, widget):
-    widget.configure(fg_color='#2F2F2F')  # Reset color on leave
-
-for button in [newButton, addButton, updateButton, deleteButton, deleteallButton]:
-    button.bind("<Enter>", lambda e, widget=button: on_enter(e, widget))
-    button.bind("<Leave>", lambda e, widget=button: on_leave(e, widget))
-
+# Run the application
 window.mainloop()
