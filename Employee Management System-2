@@ -1,0 +1,155 @@
+from customtkinter import *
+from PIL import Image
+from tkinter import ttk
+
+# Initialize the window
+window = CTk()
+window.geometry('1920x1080')  # Full screen resolution
+window.resizable(True, True)
+window.title('Employee Management System')
+window.configure(fg_color='#2F2F2F')  # New dark background with more modern feel
+
+# Logo
+Logo = CTkImage(Image.open('poster.png'), size=(1920, 300))  # Adjusted size for full screen
+logoLabel = CTkLabel(window, image=Logo, text='', corner_radius=10)
+logoLabel.grid(row=0, column=0, columnspan=2, sticky='nsew')
+
+# Left frame for input fields
+leftFrame = CTkFrame(window, fg_color='#2F2F2F', corner_radius=10)
+leftFrame.grid(row=1, column=0, padx=20, pady=20, sticky='nsew')
+
+# ID Field
+idLabel = CTkLabel(leftFrame, text='Id', font=('Helvetica', 18, 'bold'), text_color='white')
+idLabel.grid(row=0, column=0, padx=20, pady=15, sticky='w')
+idEntry = CTkEntry(leftFrame, font=('Helvetica', 15, 'bold'), width=220, corner_radius=10)
+idEntry.grid(row=0, column=1, padx=10, pady=10, sticky='w')
+
+# Name Field
+nameLabel = CTkLabel(leftFrame, text='Name', font=('Helvetica', 18, 'bold'), text_color='white')
+nameLabel.grid(row=1, column=0, padx=20, pady=15, sticky='w')
+nameEntry = CTkEntry(leftFrame, font=('Helvetica', 15, 'bold'), width=220, corner_radius=10)
+nameEntry.grid(row=1, column=1, padx=10, pady=10, sticky='w')
+
+# Phone Field
+phoneLabel = CTkLabel(leftFrame, text='Phone', font=('Helvetica', 18, 'bold'), text_color='white')
+phoneLabel.grid(row=2, column=0, padx=20, pady=15, sticky='w')
+phoneEntry = CTkEntry(leftFrame, font=('Helvetica', 15, 'bold'), width=220, corner_radius=10)
+phoneEntry.grid(row=2, column=1, padx=10, pady=10, sticky='w')
+
+# Role Selection
+roleLabel = CTkLabel(leftFrame, text='Role', font=('Helvetica', 18, 'bold'), text_color='white')
+roleLabel.grid(row=3, column=0, padx=20, pady=15, sticky='w')
+role_options = ['Web Developer', 'Cloud Architect', 'Technical Writer', 'Network Engineer', 
+                'DevOps Engineer', 'Data Scientist', 'Business Analyst', 'IT Consultant', 'UX/UI Designer']
+roleBox = CTkComboBox(leftFrame, values=role_options, width=220, font=('Helvetica', 15, 'bold'), state='readonly')
+roleBox.grid(row=3, column=1, padx=10, pady=10, sticky='w')
+roleBox.set('Select Role')
+
+# Gender Selection
+genderLabel = CTkLabel(leftFrame, text='Gender', font=('Helvetica', 18, 'bold'), text_color='white')
+genderLabel.grid(row=4, column=0, padx=20, pady=15, sticky='w')
+gender_option = ['Male', 'Female']
+genderBox = CTkComboBox(leftFrame, values=gender_option, width=220, font=('Helvetica', 15, 'bold'), state='readonly')
+genderBox.grid(row=4, column=1, padx=10, pady=10, sticky='w')
+genderBox.set('Select Gender')
+
+# Salary Field
+salaryLabel = CTkLabel(leftFrame, text='Salary', font=('Helvetica', 18, 'bold'), text_color='white')
+salaryLabel.grid(row=5, column=0, padx=20, pady=15, sticky='w')
+salaryEntry = CTkEntry(leftFrame, font=('Helvetica', 15, 'bold'), width=220, corner_radius=10)
+salaryEntry.grid(row=5, column=1, padx=10, pady=10, sticky='w')
+
+# Right Frame for searching and displaying data
+rightFrame = CTkFrame(window, corner_radius=10)
+rightFrame.grid(row=1, column=1, padx=20, pady=20, sticky='nsew')
+
+# Search Section
+search_options = ['Id', 'Name', 'Phone', 'Role', 'Gender', 'Salary']
+searchBox = CTkComboBox(rightFrame, values=search_options, state='readonly', width=180, font=('Helvetica', 14))
+searchBox.grid(row=0, column=0, padx=10, pady=10)
+searchBox.set('Search By')
+
+searchEntry = CTkEntry(rightFrame, width=220, font=('Helvetica', 14), corner_radius=10)
+searchEntry.grid(row=0, column=1, padx=10, pady=10)
+
+searchButton = CTkButton(rightFrame, text='Search', width=100, corner_radius=10, font=('Helvetica', 14))
+searchButton.grid(row=0, column=2, padx=10, pady=10)
+
+showallButton = CTkButton(rightFrame, text='Show All', width=100, corner_radius=10, font=('Helvetica', 14))
+showallButton.grid(row=0, column=3, padx=10, pady=10)
+
+# Treeview for displaying employee data
+tree = ttk.Treeview(rightFrame, height=15, selectmode="browse")
+tree.grid(row=1, column=0, columnspan=4, padx=20, pady=20, sticky='nsew')
+
+tree['columns'] = ('Id', 'Name', 'Phone', 'Role', 'Gender', 'Salary')
+tree.heading('Id', text='Id')
+tree.heading('Name', text='Name')
+tree.heading('Phone', text='Phone')
+tree.heading('Role', text='Role')
+tree.heading('Gender', text='Gender')
+tree.heading('Salary', text='Salary')
+
+tree.config(show='headings')
+
+tree.column('Id', width=100)
+tree.column('Name', width=200)
+tree.column('Phone', width=200)
+tree.column('Role', width=250)
+tree.column('Gender', width=100)
+tree.column('Salary', width=150)
+
+style = ttk.Style()
+style.configure('Treeview.Heading', font=('Helvetica', 18, 'bold'))
+
+# Scrollbars for the Treeview (both horizontal and vertical)
+scrollbar_y = ttk.Scrollbar(rightFrame, orient=VERTICAL, command=tree.yview)
+scrollbar_y.grid(row=1, column=4, sticky='ns')
+tree.configure(yscrollcommand=scrollbar_y.set)
+
+scrollbar_x = ttk.Scrollbar(rightFrame, orient=HORIZONTAL, command=tree.xview)
+scrollbar_x.grid(row=2, column=0, columnspan=4, sticky='ew')
+tree.configure(xscrollcommand=scrollbar_x.set)
+
+# Button frame at the bottom
+buttonFrame = CTkFrame(window, fg_color='#2F2F2F', corner_radius=10)
+buttonFrame.grid(row=2, column=0, columnspan=2, padx=20, pady=20, sticky='nsew')
+
+# Action Buttons with hover effects
+newButton = CTkButton(buttonFrame, text='New Employee', font=('Helvetica', 15, 'bold'), width=180, corner_radius=15, hover_color='#4e4e4e')
+newButton.grid(row=0, column=0, padx=10, pady=10)
+
+addButton = CTkButton(buttonFrame, text='Add Employee', font=('Helvetica', 15, 'bold'), width=180, corner_radius=15, hover_color='#4e4e4e')
+addButton.grid(row=0, column=1, padx=10, pady=10)
+
+updateButton = CTkButton(buttonFrame, text='Update Employee', font=('Helvetica', 15, 'bold'), width=180, corner_radius=15, hover_color='#4e4e4e')
+updateButton.grid(row=0, column=2, padx=10, pady=10)
+
+deleteButton = CTkButton(buttonFrame, text='Delete Employee', font=('Helvetica', 15, 'bold'), width=180, corner_radius=15, hover_color='#4e4e4e')
+deleteButton.grid(row=0, column=3, padx=10, pady=10)
+
+deleteallButton = CTkButton(buttonFrame, text='Delete All', font=('Helvetica', 15, 'bold'), width=180, corner_radius=15, hover_color='#4e4e4e')
+deleteallButton.grid(row=0, column=4, padx=10, pady=10)
+
+# Expand the layout to fill the screen
+window.grid_rowconfigure(0, weight=1)
+window.grid_columnconfigure(0, weight=1)
+window.grid_rowconfigure(1, weight=5)
+window.grid_columnconfigure(1, weight=5)
+
+# Status Bar (Bottom of the window)
+statusBar = CTkLabel(window, text='Ready', font=('Helvetica', 14), text_color='white', anchor='w', width=window.winfo_width())
+statusBar.grid(row=3, column=0, columnspan=2, sticky='ew', padx=10, pady=10)
+
+# Adding Tooltip to the Buttons (Optional)
+def on_enter(event, widget):
+    widget.configure(fg_color='#333333')  # Change color on hover
+
+def on_leave(event, widget):
+    widget.configure(fg_color='#2F2F2F')  # Reset color on leave
+
+for button in [newButton, addButton, updateButton, deleteButton, deleteallButton]:
+    button.bind("<Enter>", lambda e, widget=button: on_enter(e, widget))
+    button.bind("<Leave>", lambda e, widget=button: on_leave(e, widget))
+
+window.mainloop()
